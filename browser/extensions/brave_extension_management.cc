@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "brave/browser/brave_browser_process_impl.h"
+#include "brave/browser/ipfs/buildflags.h"
 #include "brave/browser/tor/buildflags.h"
 #include "brave/common/extensions/extension_constants.h"
 #include "brave/common/pref_names.h"
@@ -23,6 +24,10 @@
 #if BUILDFLAG(ENABLE_TOR)
 #include "brave/browser/extensions/brave_tor_client_updater.h"
 #include "brave/browser/tor/tor_profile_service.h"
+#endif
+
+#if BUILDFLAG(ENABLE_IPFS)
+#include "brave/browser/extensions/brave_ipfs_client_updater.h"
 #endif
 
 namespace extensions {
@@ -42,10 +47,19 @@ BraveExtensionManagement::BraveExtensionManagement(Profile* profile)
   // BrowserPolicyConnector enforce policy earlier than this constructor so we
   // have to manully cleanup tor executable when tor is disabled by gpo
   OnTorDisabledChanged();
+  RegisterBraveExtensions();
 }
 
 BraveExtensionManagement::~BraveExtensionManagement() {
   local_state_pref_change_registrar_.RemoveAll();
+}
+
+void BraveExtensionManagement::RegisterBraveExtensions() {
+#if BUILDFLAG(ENABLE_IPFS)
+  if (!command_line.HasSwitch(
+        switches::kDisableIpfsClientUpdaterExtension))
+    g_brave_browser_process->ipfs_client_updater()->Register();
+#endif
 }
 
 void BraveExtensionManagement::OnExtensionLoaded(
