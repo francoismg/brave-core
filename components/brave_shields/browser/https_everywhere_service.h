@@ -16,10 +16,7 @@
 #include "base/synchronization/lock.h"
 #include "brave/components/brave_shields/browser/base_brave_shields_service.h"
 #include "brave/components/brave_shields/browser/https_everywhere_recently_used_cache.h"
-
-namespace leveldb {
-class DB;
-}
+#include "brave/vendor/https-everywhere-lib-cpp/src/wrapper.hpp"
 
 class HTTPSEverywhereServiceTest;
 
@@ -63,9 +60,6 @@ class HTTPSEverywhereService : public BaseBraveShieldsService,
 
   void AddHTTPSEUrlToRedirectList(const uint64_t& request_id);
   bool ShouldHTTPSERedirect(const uint64_t& request_id);
-  std::string ApplyHTTPSRule(const std::string& originalUrl,
-      const std::string& rule);
-  std::string CorrecttoRuleToRE2Engine(const std::string& to);
 
  private:
   friend class ::HTTPSEverywhereServiceTest;
@@ -81,10 +75,11 @@ class HTTPSEverywhereService : public BaseBraveShieldsService,
 
   void InitDB(const base::FilePath& install_dir);
 
+  httpse::HttpsEverywhereClient rust_client_;
+
   base::Lock httpse_get_urls_redirects_count_mutex_;
   std::vector<HTTPSE_REDIRECTS_COUNT_ST> httpse_urls_redirects_count_;
   HTTPSERecentlyUsedCache<std::string> recently_used_cache_;
-  leveldb::DB* level_db_;
 
   SEQUENCE_CHECKER(sequence_checker_);
   DISALLOW_COPY_AND_ASSIGN(HTTPSEverywhereService);
