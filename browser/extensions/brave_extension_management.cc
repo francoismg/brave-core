@@ -7,13 +7,15 @@
 
 #include <memory>
 
+#include "base/command_line.h"
 #include "brave/browser/brave_browser_process_impl.h"
-#include "brave/browser/ipfs/buildflags.h"
+#include "brave/browser/extensions/brave_extension_provider.h"
 #include "brave/browser/tor/buildflags.h"
+#include "brave/common/brave_switches.h"
 #include "brave/common/extensions/extension_constants.h"
 #include "brave/common/pref_names.h"
 #include "brave/common/tor/pref_names.h"
-#include "brave/browser/extensions/brave_extension_provider.h"
+#include "brave/components/ipfs/browser/buildflags/buildflags.h"
 #include "chrome/browser/extensions/external_policy_loader.h"
 #include "chrome/browser/profiles/profile.h"
 #include "components/prefs/pref_service.h"
@@ -26,8 +28,8 @@
 #include "brave/browser/tor/tor_profile_service.h"
 #endif
 
-#if BUILDFLAG(ENABLE_IPFS)
-#include "brave/browser/extensions/brave_ipfs_client_updater.h"
+#if BUILDFLAG(IPFS_ENABLED)
+#include "brave/components/ipfs/browser/brave_ipfs_client_updater.h"
 #endif
 
 namespace extensions {
@@ -55,9 +57,9 @@ BraveExtensionManagement::~BraveExtensionManagement() {
 }
 
 void BraveExtensionManagement::RegisterBraveExtensions() {
-#if BUILDFLAG(ENABLE_IPFS)
-  if (!command_line.HasSwitch(
-        switches::kDisableIpfsClientUpdaterExtension))
+#if BUILDFLAG(IPFS_ENABLED)
+  if (!base::CommandLine::ForCurrentProcess()->HasSwitch(
+          switches::kDisableIpfsClientUpdaterExtension))
     g_brave_browser_process->ipfs_client_updater()->Register();
 #endif
 }
