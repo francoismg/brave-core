@@ -21,8 +21,6 @@ class BraveExtensionManagement : public ExtensionManagement,
   ~BraveExtensionManagement() override;
 
  private:
-  void RegisterBraveExtensions();
-
   // ExtensionRegistryObserver implementation.
   void OnExtensionLoaded(
       content::BrowserContext* browser_context,

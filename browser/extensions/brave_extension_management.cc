@@ -15,7 +15,6 @@
 #include "brave/common/extensions/extension_constants.h"
 #include "brave/common/pref_names.h"
 #include "brave/common/tor/pref_names.h"
-#include "brave/components/ipfs/browser/buildflags/buildflags.h"
 #include "chrome/browser/extensions/external_policy_loader.h"
 #include "chrome/browser/profiles/profile.h"
 #include "components/prefs/pref_service.h"
@@ -26,10 +25,6 @@
 #if BUILDFLAG(ENABLE_TOR)
 #include "brave/browser/extensions/brave_tor_client_updater.h"
 #include "brave/browser/tor/tor_profile_service.h"
-#endif
-
-#if BUILDFLAG(IPFS_ENABLED)
-#include "brave/components/ipfs/browser/brave_ipfs_client_updater.h"
 #endif
 
 namespace extensions {
@@ -49,19 +44,10 @@ BraveExtensionManagement::BraveExtensionManagement(Profile* profile)
   // BrowserPolicyConnector enforce policy earlier than this constructor so we
   // have to manully cleanup tor executable when tor is disabled by gpo
   OnTorDisabledChanged();
-  RegisterBraveExtensions();
 }
 
 BraveExtensionManagement::~BraveExtensionManagement() {
   local_state_pref_change_registrar_.RemoveAll();
-}
-
-void BraveExtensionManagement::RegisterBraveExtensions() {
-#if BUILDFLAG(IPFS_ENABLED)
-  if (!base::CommandLine::ForCurrentProcess()->HasSwitch(
-          switches::kDisableIpfsClientUpdaterExtension))
-    g_brave_browser_process->ipfs_client_updater()->Register();
-#endif
 }
 
 void BraveExtensionManagement::OnExtensionLoaded(
