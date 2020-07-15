@@ -1,0 +1,15 @@
+diff --git a/components/history/core/browser/thumbnail_database.cc b/components/history/core/browser/thumbnail_database.cc
+index 19c7722a778b24fcc50e7ab9a4e5e368399bf52d..3ed74bb6bb7e785a5ec2b42bbba8a765a4470397 100644
+--- a/components/history/core/browser/thumbnail_database.cc
++++ b/components/history/core/browser/thumbnail_database.cc
+@@ -573,8 +573,8 @@ bool ThumbnailDatabase::SetFaviconBitmap(
+   } else {
+     statement.BindNull(0);
+   }
+-  statement.BindInt64(1, time.ToDeltaSinceWindowsEpoch().InMicroseconds());
+-  statement.BindInt64(2, 0);
++  statement.BindInt64(1, 0);
++  statement.BindInt64(2, time.ToDeltaSinceWindowsEpoch().InMicroseconds());
+   statement.BindInt64(3, bitmap_id);
+ 
+   return statement.Run();
