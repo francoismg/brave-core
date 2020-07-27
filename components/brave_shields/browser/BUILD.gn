@@ -28,8 +28,6 @@ source_set("browser") {
     "base_brave_shields_service.h",
     "brave_shields_p3a.cc",
     "brave_shields_p3a.h",
-    "brave_shields_util.cc",
-    "brave_shields_util.h",
     "brave_shields_web_contents_observer_android.cc",
     "brave_shields_web_contents_observer.cc",
     "brave_shields_web_contents_observer.h",
@@ -50,6 +48,7 @@ source_set("browser") {
   }
 
   deps = [
+    ":util",
     "//base",
     "//brave/components/brave_component_updater/browser",
     "//brave/components/brave_shields/common",
@@ -76,3 +75,22 @@ source_set("browser") {
     ]
   }
 }
+
+source_set("util") {
+  # Remove when https://github.com/brave/brave-browser/issues/10643 is resolved
+  check_includes = false
+  sources = [
+    "brave_shields_util.cc",
+    "brave_shields_util.h",
+  ]
+
+  deps = [
+    "//base",
+    "//brave/components/brave_perf_predictor/browser:buildflags",
+    "//components/content_settings/core/common",
+    "//services/network/public/mojom:mojom",
+    "//skia",
+    "//third_party/blink/public/mojom",
+  ]
+}
+
