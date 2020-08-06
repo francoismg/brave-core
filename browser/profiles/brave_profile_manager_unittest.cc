@@ -15,7 +15,6 @@
 #include "brave/browser/profiles/tor_unittest_profile_manager.h"
 #include "brave/browser/tor/tor_launcher_factory.h"
 #include "brave/browser/translate/buildflags/buildflags.h"
-#include "brave/common/tor/pref_names.h"
 #include "brave/common/tor/tor_constants.h"
 #include "brave/components/brave_webtorrent/browser/webtorrent_util.h"
 #include "chrome/browser/net/proxy_config_monitor.h"
@@ -254,8 +253,5 @@ TEST_F(BraveProfileManagerTest, ProxyConfigMonitorInTorProfile) {
   auto* proxy_config_service = monitor->GetProxyConfigServiceForTesting();
   net::ProxyConfigWithAnnotation config;
   proxy_config_service->GetLatestProxyConfig(&config);
-  const std::string& proxy_uri =
-      config.value().proxy_rules().single_proxies.Get().ToURI();
-  EXPECT_EQ(proxy_uri, g_browser_process->local_state()
-            ->GetString(tor::prefs::kTorProxyString));
+  EXPECT_TRUE(config.value().proxy_rules().empty());
 }
