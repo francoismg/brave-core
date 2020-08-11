@@ -30,7 +30,6 @@ namespace {
 std::string GeneratePayload(
     const std::string& user_funds,
     const std::string& address,
-    const std::string& anon_address,
     const std::vector<uint8_t>& seed) {
   const std::string amount = user_funds.empty() ? "0" : user_funds;
 
@@ -72,7 +71,6 @@ std::string GeneratePayload(
 
   base::Value payload(base::Value::Type::DICTIONARY);
   payload.SetStringKey("signedLinkingRequest", signed_request_base64);
-  payload.SetStringKey("anonymousAddress", anon_address);
   std::string json;
   base::JSONWriter::Write(payload, &json);
 
@@ -124,39 +122,16 @@ void WalletClaim::OnBalance(
     return;
   }
 
-  if (!wallet_ptr->anon_address.empty()) {
-    BLOG(1, "Anon address already exists");
-    TransferFunds(
-        ledger::Result::LEDGER_OK,
-        balance->user_funds,
-        callback);
-    return;
-  }
-
-  auto anon_callback = std::bind(&WalletClaim::TransferFunds,
-      this,
-      _1,
-      balance->user_funds,
-      callback);
-
-  uphold_->CreateAnonAddressIfNecessary(anon_callback);
+  TransferFunds(balance->user_funds, callback);
 }
 
 void WalletClaim::TransferFunds(
-    const ledger::Result result,
     const std::string user_funds,
     ledger::ResultCallback callback) {
   auto wallets = ledger_->GetExternalWallets();
   auto wallet_ptr = braveledger_uphold::GetWallet(std::move(wallets));
   if (!wallet_ptr) {
     BLOG(0, "Wallet is null");
-    callback(ledger::Result::LEDGER_ERROR);
-    return;
-  }
-
-  if (result != ledger::Result::LEDGER_OK ||
-      wallet_ptr->anon_address.empty()) {
-    BLOG(0, "Anon address is missing");
     callback(ledger::Result::LEDGER_ERROR);
     return;
   }
@@ -172,7 +147,6 @@ void WalletClaim::TransferFunds(
   const std::string payload = GeneratePayload(
       user_funds,
       wallet_ptr->address,
-      wallet_ptr->anon_address,
       braveledger_state::GetRecoverySeed(ledger_));
 
   ledger_->LoadURL(
