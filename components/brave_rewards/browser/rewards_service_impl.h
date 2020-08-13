@@ -244,6 +244,27 @@ class RewardsServiceImpl : public RewardsService,
       const std::map<std::string, std::string>& args,
       SaveMediaInfoCallback callback) override;
 
+  void UpdateMediaDuration(
+      const std::string& publisher_key,
+      uint64_t duration) override;
+
+  void GetPublisherInfo(
+      const std::string& publisher_key,
+      GetPublisherInfoCallback callback) override;
+
+  void GetPublisherPanelInfo(
+      const std::string& publisher_key,
+      GetPublisherPanelInfoCallback callback) override;
+
+  void SavePublisherInfo(
+      const uint64_t window_id,
+      const std::string& media_type,
+      const std::string& url,
+      const std::string& publisher_key,
+      const std::string& publisher_name,
+      const std::string& favicon_url,
+      SavePublisherInfoCallback callback) override;
+
   void SetInlineTippingPlatformEnabled(
       const std::string& key,
       bool enabled) override;
@@ -522,6 +543,17 @@ class RewardsServiceImpl : public RewardsService,
   void OnSetOnDemandFaviconComplete(const std::string& favicon_url,
                                     ledger::FetchIconCallback callback,
                                     bool success);
+  void OnPublisherInfo(
+      GetPublisherInfoCallback callback,
+      const ledger::Result result,
+      ledger::PublisherInfoPtr info);
+  void OnPublisherPanelInfo(
+      GetPublisherPanelInfoCallback callback,
+      const ledger::Result result,
+      ledger::PublisherInfoPtr info);
+  void OnSavePublisherInfo(
+      SavePublisherInfoCallback callback,
+      const ledger::Result result);
 
   bool MaybeTailDiagnosticLog(
       const int num_lines);

@@ -25,11 +25,20 @@ class DatabaseActivityInfo: public DatabaseTable {
       ledger::PublisherInfoList list,
       ledger::ResultCallback callback);
 
+  void GetRecord(
+    const std::string& publisher_key,
+    ledger::GetActivityInfoCallback callback);
+
   void GetRecordsList(
       const int start,
       const int limit,
       ledger::ActivityInfoFilterPtr filter,
       ledger::PublisherInfoListCallback callback);
+
+  void UpdateDuration(
+      const std::string& publisher_key,
+      uint64_t duration,
+      ledger::ResultCallback callback);
 
   void DeleteRecord(
       const std::string& publisher_key,
@@ -40,9 +49,18 @@ class DatabaseActivityInfo: public DatabaseTable {
       ledger::DBTransaction* transaction,
       ledger::PublisherInfoPtr info);
 
+  void OnGetRecord(
+      ledger::DBCommandResponsePtr response,
+      ledger::GetActivityInfoCallback callback);
+
   void OnGetRecordsList(
       ledger::DBCommandResponsePtr response,
       ledger::PublisherInfoListCallback callback);
+
+  void OnGetRecordForUpdateDuration(
+      ledger::ActivityInfoPtr activity_info,
+      uint64_t duration,
+      ledger::ResultCallback callback);
 };
 
 }  // namespace braveledger_database

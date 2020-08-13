@@ -32,7 +32,7 @@ describe('rewards panel reducer', () => {
             url: 'https://clifton.io',
             incognito: false,
             active: true,
-            windowId: 1
+            id: 1
           }
         }
 
@@ -42,7 +42,8 @@ describe('rewards panel reducer', () => {
           walletCreated: true,
           enabledMain: true,
           publishers: {
-            id_1: {
+            key_1: {
+              tabId: 1,
               tabUrl: 'https://clifton.io'
             }
           }
@@ -57,7 +58,7 @@ describe('rewards panel reducer', () => {
 
         // imitates ON_PUBLISHER_DATA
         state.rewardsPanelData.publishers = {
-          id_1: {
+          key_1: {
             tabUrl: 'https://clifton.io',
             publisher_key: 'clifton.io',
             name: 'Clifton'
@@ -70,7 +71,8 @@ describe('rewards panel reducer', () => {
           walletCreated: true,
           enabledMain: true,
           publishers: {
-            id_1: {
+            key_1: {
+              tabId: 1,
               tabUrl: 'https://clifton.io',
               publisher_key: 'clifton.io',
               name: 'Clifton'
@@ -93,7 +95,7 @@ describe('rewards panel reducer', () => {
             url: 'https://clifton.io',
             incognito: false,
             active: true,
-            windowId: 1
+            id: 1
           }
         }
 
@@ -102,7 +104,8 @@ describe('rewards panel reducer', () => {
           ...defaultState,
           walletCreated: true,
           publishers: {
-            id_1: {
+            key_1: {
+              tabId: 1,
               tabUrl: 'https://clifton.io'
             }
           }
@@ -117,7 +120,7 @@ describe('rewards panel reducer', () => {
 
         // imitates ON_PUBLISHER_DATA
         state.rewardsPanelData.publishers = {
-          id_1: {
+          key_1: {
             tabUrl: 'https://clifton.io'
           }
         }
@@ -127,7 +130,7 @@ describe('rewards panel reducer', () => {
           ...defaultState,
           walletCreated: true,
           publishers: {
-            id_1: {
+            key_1: {
               tabUrl: 'https://clifton.io'
             }
           }
@@ -154,7 +157,8 @@ describe('rewards panel reducer', () => {
           walletCreated: true,
           enabledMain: true,
           publishers: {
-            id_1: {
+            key_1: {
+              tabId: 1,
               tabUrl: 'https://clifton.io'
             }
           }
@@ -167,7 +171,7 @@ describe('rewards panel reducer', () => {
               url: 'https://clifton.io',
               incognito: false,
               active: true,
-              windowId: 1
+              id: 1
             }
           }
         })
@@ -176,7 +180,7 @@ describe('rewards panel reducer', () => {
 
         // imitates ON_PUBLISHER_DATA
         state.rewardsPanelData.publishers = {
-          id_1: {
+          key_1: {
             tabUrl: 'clifton.io',
             publisher_key: 'clifton.io',
             name: 'Clifton'
@@ -189,7 +193,8 @@ describe('rewards panel reducer', () => {
           walletCreated: true,
           enabledMain: true,
           publishers: {
-            id_1: {
+            key_1: {
+              tabId: 1,
               tabUrl: 'https://brave.com'
             }
           }
@@ -202,7 +207,7 @@ describe('rewards panel reducer', () => {
               url: 'https://brave.com',
               incognito: false,
               active: true,
-              windowId: 1
+              id: 1
             }
           }
         })
@@ -230,7 +235,7 @@ describe('rewards panel reducer', () => {
               url: 'https://clifton.io',
               incognito: false,
               active: true,
-              windowId: 1
+              id: 1
             }
           }
         })
@@ -244,7 +249,7 @@ describe('rewards panel reducer', () => {
           walletCreated: true,
           enabledMain: true,
           publishers: {
-            id_1: {
+            key_1: {
               tabUrl: 'clifton.io',
               random: 'I need to vanish'
             }
@@ -256,7 +261,8 @@ describe('rewards panel reducer', () => {
           walletCreated: true,
           enabledMain: true,
           publishers: {
-            id_1: {
+            key_1: {
+              tabId: 1,
               tabUrl: 'https://clifton.io'
             }
           }
@@ -269,7 +275,7 @@ describe('rewards panel reducer', () => {
               url: 'https://clifton.io',
               incognito: false,
               active: true,
-              windowId: 1
+              id: 1
             }
           }
         })
@@ -277,13 +283,13 @@ describe('rewards panel reducer', () => {
         expect(state.rewardsPanelData).toEqual(expectedState)
       })
 
-      it('switching between two tabs that has the same url', () => {
+      it('switching between two tabs that have the same url', () => {
         const initState: Rewards.State = {
           ...defaultState,
           walletCreated: true,
           enabledMain: true,
           publishers: {
-            id_1: {
+            key_1: {
               tabUrl: 'https://clifton.io',
               publisher_key: 'clifton.io',
               tabId: 1
@@ -296,9 +302,13 @@ describe('rewards panel reducer', () => {
           walletCreated: true,
           enabledMain: true,
           publishers: {
-            id_1: {
+            key_1: {
               tabUrl: 'https://clifton.io',
               publisher_key: 'clifton.io',
+              tabId: 1
+            },
+            key_2: {
+              tabUrl: 'https://clifton.io',
               tabId: 2
             }
           }
@@ -372,14 +382,14 @@ describe('rewards panel reducer', () => {
       let state = {
         ...defaultState,
         publishers: {
-          id_1: {
+          key_1: {
             tabUrl: 'https://brave.com',
             publisher_key: 'brave.com',
             percentage: 30,
             status: 0,
             excluded: true
           },
-          id_2: {
+          key_2: {
             tabUrl: 'https://brave4.com',
             publisher_key: 'brave4.com',
             percentage: 40,
@@ -390,14 +400,14 @@ describe('rewards panel reducer', () => {
       const expectedState: Rewards.State = {
         ...defaultState,
         publishers: {
-          id_1: {
+          key_1: {
             tabUrl: 'https://brave.com',
             publisher_key: 'brave.com',
             percentage: 50,
             status: 2,
             excluded: false
           },
-          id_2: {
+          key_2: {
             tabUrl: 'https://brave4.com',
             publisher_key: 'brave4.com',
             percentage: 0,
@@ -446,14 +456,14 @@ describe('rewards panel reducer', () => {
       let state = {
         ...defaultState,
         publishers: {
-          id_1: {
+          key_1: {
             tabUrl: 'https://brave.com',
             publisher_key: 'brave.com',
             percentage: 30,
             status: 2,
             excluded: true
           },
-          id_2: {
+          key_2: {
             tabUrl: 'https://brave4.com',
             publisher_key: 'brave4.com',
             percentage: 40,
@@ -464,14 +474,14 @@ describe('rewards panel reducer', () => {
       const expectedState: Rewards.State = {
         ...defaultState,
         publishers: {
-          id_1: {
+          key_1: {
             tabUrl: 'https://brave.com',
             publisher_key: 'brave.com',
             percentage: 30,
             status: 2,
             excluded: false
           },
-          id_2: {
+          key_2: {
             tabUrl: 'https://brave4.com',
             publisher_key: 'brave4.com',
             percentage: 40,

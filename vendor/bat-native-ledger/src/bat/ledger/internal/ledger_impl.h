@@ -259,6 +259,27 @@ class LedgerImpl : public ledger::Ledger {
       const std::map<std::string, std::string>& data,
       ledger::PublisherInfoCallback callback) override;
 
+  void UpdateMediaDuration(
+      const std::string& publisher_key,
+      uint64_t duration) override;
+
+  void GetPublisherInfo(
+      const std::string& publisher_key,
+      ledger::PublisherInfoCallback callback) override;
+
+  void GetPublisherPanelInfo(
+      const std::string& publisher_key,
+      ledger::PublisherInfoCallback callback) override;
+
+  void SavePublisherInfo(
+      const uint64_t window_id,
+      const std::string& media_type,
+      const std::string& url,
+      const std::string& publisher_key,
+      const std::string& publisher_name,
+      const std::string& favicon_url,
+      ledger::ResultCallback callback) override;
+
   void SetInlineTippingPlatformEnabled(
       const ledger::InlineTipsPlatforms platform,
       bool enabled) override;
@@ -315,7 +336,7 @@ class LedgerImpl : public ledger::Ledger {
   void GetAllContributions(
       ledger::ContributionInfoListCallback callback) override;
 
-  void SavePublisherInfo(
+  void SavePublisherInfoForTip(
       ledger::PublisherInfoPtr info,
       ledger::ResultCallback callback) override;
 
