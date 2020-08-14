@@ -1,0 +1,12 @@
+diff --git a/components/sync_device_info/device_info_sync_bridge.cc b/components/sync_device_info/device_info_sync_bridge.cc
+index ea25c1eaf23e44d377066dfadd4c2ec70635822a..5a26c9431a4a9d0ba7f47b6494993647a760ae16 100644
+--- a/components/sync_device_info/device_info_sync_bridge.cc
++++ b/components/sync_device_info/device_info_sync_bridge.cc
+@@ -206,6 +206,7 @@ DeviceInfoSyncBridge::DeviceInfoSyncBridge(
+   std::move(store_factory)
+       .Run(DEVICE_INFO, base::BindOnce(&DeviceInfoSyncBridge::OnStoreCreated,
+                                        weak_ptr_factory_.GetWeakPtr()));
++  BRAVE_INIT_SYNC_TABS_PREF_CHANGE_REGISTRAR;
+ }
+ 
+ DeviceInfoSyncBridge::~DeviceInfoSyncBridge() {}
