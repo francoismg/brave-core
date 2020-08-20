@@ -12,8 +12,6 @@
 
 namespace braveledger_request_util {
 
-std::string GetCreateOrderURL();
-
 std::string GetOrderCredentialsURL(
     const std::string& order_id,
     const std::string& item_id = "");

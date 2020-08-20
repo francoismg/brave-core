@@ -15,10 +15,6 @@ namespace braveledger_response_util {
 ledger::Result CheckSendExternalTransaction(
     const ledger::UrlResponse& response);
 
-ledger::SKUOrderPtr ParseOrderCreate(
-    const ledger::UrlResponse& response,
-    const std::vector<ledger::SKUOrderItem>& order_items);
-
 ledger::Result CheckClaimSKUCreds(const ledger::UrlResponse& response);
 
 ledger::Result CheckRedeemSKUTokens(
