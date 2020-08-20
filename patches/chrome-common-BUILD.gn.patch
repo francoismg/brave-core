@@ -1,5 +1,5 @@
 diff --git a/chrome/common/BUILD.gn b/chrome/common/BUILD.gn
-index e6496ae6ef9f22325338c91309444e0bd553e9d8..ea6da1dc85460ee88fca594436dd3f7f7c98c190 100644
+index e6496ae6ef9f22325338c91309444e0bd553e9d8..8f007d20f29243daf25a3d48b56ccc7a0c743944 100644
 --- a/chrome/common/BUILD.gn
 +++ b/chrome/common/BUILD.gn
 @@ -69,6 +69,7 @@ source_set("channel_info") {
@@ -18,7 +18,16 @@ index e6496ae6ef9f22325338c91309444e0bd553e9d8..ea6da1dc85460ee88fca594436dd3f7f
      ":available_offline_content_mojom",
      ":buildflags",
      ":channel_info",
-@@ -542,6 +544,7 @@ static_library("non_code_constants") {
+@@ -257,6 +259,8 @@ static_library("common") {
+     "//url",
+   ]
+ 
++  allow_circular_includes_from = [ "//brave/common" ]
++
+   deps = [
+     "//build:branding_buildflags",
+     "//components/crash/core/app",
+@@ -542,6 +546,7 @@ static_library("non_code_constants") {
      "//printing/buildflags",
      "//ui/base:buildflags",
    ]

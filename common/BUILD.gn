@@ -48,8 +48,6 @@ source_set("switches") {
 }
 
 source_set("common") {
-  # Remove when https://github.com/brave/brave-browser/issues/10653 is resolved
-  check_includes = false
   deps = []
 
   sources = [
@@ -99,12 +97,22 @@ source_set("common") {
     ":shield_exceptions",
     ":switches",
     "//brave/chromium_src:common",
+    "//brave/components/brave_component_updater/browser:browser",
     "//brave/components/resources",
+    "//brave/components/resources:static_resources_grit",
     "//components/resources",
+    "//chrome/common:channel_info",
+    "//chrome/common:constants",
     "//extensions/buildflags",
     "//services/service_manager",
+    "//third_party/widevine/cdm:buildflags",
+    "//third_party/widevine/cdm:headers",
     "//ui/base",
   ]
+
+  if (enable_extensions) {
+    deps += [ "//extensions/common:common" ]
+  }
 
   if (!is_ios) {
     sources += [
