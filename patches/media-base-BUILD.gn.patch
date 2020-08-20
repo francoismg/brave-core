@@ -1,0 +1,12 @@
+diff --git a/media/base/BUILD.gn b/media/base/BUILD.gn
+index e45cb89a96a1e7e1fb9670b4fef1d878b813f5e3..cf1cfa73e202bf2af302599fc2c99ecb072dc98f 100644
+--- a/media/base/BUILD.gn
++++ b/media/base/BUILD.gn
+@@ -458,6 +458,7 @@ if (is_android) {
+ # should depend on this, external targets should use //media:test_support.
+ static_library("test_support") {
+   visibility = [
++    "//brave/test:brave_browser_tests",
+     "//media:test_support",
+     "//media/audio:test_support",
+     "//media/base/android:test_support",

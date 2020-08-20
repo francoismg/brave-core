@@ -1,0 +1,16 @@
+diff --git a/third_party/widevine/cdm/BUILD.gn b/third_party/widevine/cdm/BUILD.gn
+index 1919784f5f939698c7d119e58554d6f4d50f011e..28c7633b285346cf0c9aab97c434a7de537ef1bd 100644
+--- a/third_party/widevine/cdm/BUILD.gn
++++ b/third_party/widevine/cdm/BUILD.gn
+@@ -73,7 +73,10 @@ if (bundle_widevine_cdm && enable_widevine_cdm_host_verification) {
+ }
+ 
+ copy("version_h") {
+-  visibility = [ ":*" ]  # Depend on ":headers" instead.
++  visibility = [
++    ":*",
++    "//brave/test:brave_unit_tests",
++  ]  # Depend on ":headers" instead.
+   sources = [ widevine_cdm_version_h_file ]
+ 
+   # TODO(brettw) this should go into target_out_dir and callers should include
