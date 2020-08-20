@@ -1,0 +1,12 @@
+diff --git a/components/send_tab_to_self/send_tab_to_self_bridge.cc b/components/send_tab_to_self/send_tab_to_self_bridge.cc
+index 28906d7d81abe28c59d8442a7a85d11c6f3942ed..0345192e3b3c81b1256d2622047a1c95fedf3017 100644
+--- a/components/send_tab_to_self/send_tab_to_self_bridge.cc
++++ b/components/send_tab_to_self/send_tab_to_self_bridge.cc
+@@ -613,6 +613,7 @@ void SendTabToSelfBridge::DoGarbageCollection() {
+ }
+ 
+ bool SendTabToSelfBridge::ShouldUpdateTargetDeviceInfoList() const {
++  BRAVE_FORCE_SHOULD_UPDATE_DEVICES_LIST;
+   // The vector should be updated if any of these is true:
+   //   * The vector is empty.
+   //   * The number of total devices changed.
