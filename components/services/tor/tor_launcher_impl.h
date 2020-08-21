@@ -28,8 +28,6 @@ class TorLauncherImpl : public tor::mojom::TorLauncher {
   void Launch(const TorConfig& config,
               LaunchCallback callback) override;
   void SetCrashHandler(SetCrashHandlerCallback callback) override;
-  void ReLaunch(const TorConfig& config,
-              ReLaunchCallback callback) override;
   void SetDisconnected();
  private:
   void MonitorChild();
