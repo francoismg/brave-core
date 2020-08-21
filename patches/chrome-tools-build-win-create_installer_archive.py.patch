@@ -1,5 +1,5 @@
 diff --git a/chrome/tools/build/win/create_installer_archive.py b/chrome/tools/build/win/create_installer_archive.py
-index ffbf9ec0727b9a81eb4b8488ae67b797ec81a437..8d9052c3f6b6e068c5409d695362f187c142382a 100755
+index ffbf9ec0727b9a81eb4b8488ae67b797ec81a437..75cc4b67eef5533230f2a46618ca054c970a5292 100755
 --- a/chrome/tools/build/win/create_installer_archive.py
 +++ b/chrome/tools/build/win/create_installer_archive.py
 @@ -42,6 +42,7 @@ SETUP_PATCH_FILE_PREFIX = "setup_patch"
@@ -35,7 +35,15 @@ index ffbf9ec0727b9a81eb4b8488ae67b797ec81a437..8d9052c3f6b6e068c5409d695362f187
  
    # Name of the archive file built (for example - chrome.7z or
    # patch-<old_version>-<new_version>.7z or patch-<new_version>.7z
-@@ -622,6 +625,7 @@ def _ParseOptions():
+@@ -559,6 +562,7 @@ def main(options):
+ 
+   setup_file = PrepareSetupExec(options,
+                                 current_build_number, prev_build_number)
++  SignSetupExe(options.skip_signing, options.output_dir)
+ 
+   CreateResourceInputFile(options.output_dir, options.setup_exe_format,
+                           archive_file, setup_file, options.resource_file_path,
+@@ -622,6 +626,7 @@ def _ParseOptions():
             'with the installer archive {x86|x64}.')
    parser.add_option('-v', '--verbose', action='store_true', dest='verbose',
                      default=False)

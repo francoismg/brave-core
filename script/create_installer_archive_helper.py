@@ -7,13 +7,12 @@
 
 import os
 import shutil
+from sign_binaries import sign_binaries
 
 CHROME_DIR = "Chrome-bin"
 
-
 def SignAndCopyPreSignedBinaries(skip_signing, output_dir, staging_dir, current_version):
     if not skip_signing:
-        from sign_binaries import sign_binaries
         sign_binaries(staging_dir)
         """Copies already signed three binaries - brave.exe and chrome.dll
         These files are signed during the build phase to create widevine sig files.
@@ -24,6 +23,9 @@ def SignAndCopyPreSignedBinaries(skip_signing, output_dir, staging_dir, current_
         shutil.copy(os.path.join(src_dir, 'brave.exe'), chrome_dir)
         shutil.copy(os.path.join(src_dir, 'chrome.dll'), version_dir)
 
+def SignSetupExe(skip_signing, output_dir):
+    if not skip_signing:
+        sign_binaries(output_dir, ('setup.exe'))
 
 def BraveCopyAllFilesToStagingDir(config, staging_dir, g_archive_inputs):
     current_dir = os.path.realpath(os.path.dirname(os.path.realpath(__file__)))
