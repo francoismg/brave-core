@@ -77,7 +77,8 @@ namespace tor {
 
 TorLauncherImpl::TorLauncherImpl(
     std::unique_ptr<service_manager::ServiceContextRef> service_ref)
-    : service_ref_(std::move(service_ref)) {
+    : main_task_runner_(base::SequencedTaskRunnerHandle::Get()),
+      service_ref_(std::move(service_ref)) {
 #if defined(OS_POSIX)
   SetupPipeHack();
 #endif
@@ -190,7 +191,7 @@ void TorLauncherImpl::MonitorChild() {
           }
           tor_process_.Close();
           if (connected_ && crash_handler_callback_) {
-            base::ThreadTaskRunnerHandle::Get()->PostTask(
+            main_task_runner_->PostTask(
               FROM_HERE, base::BindOnce(std::move(crash_handler_callback_),
                                         pid));
           }
@@ -203,7 +204,7 @@ void TorLauncherImpl::MonitorChild() {
 #elif defined(OS_WIN)
   WaitForSingleObject(tor_process_.Handle(), INFINITE);
   if (connected_ && crash_handler_callback_)
-    base::ThreadTaskRunnerHandle::Get()->PostTask(
+    main_task_runner_->PostTask(
       FROM_HERE, base::BindOnce(std::move(crash_handler_callback_),
                                 base::GetProcId(tor_process_.Handle())));
 #else

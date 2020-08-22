@@ -34,6 +34,7 @@ class TorLauncherImpl : public tor::mojom::TorLauncher {
 
   SetCrashHandlerCallback crash_handler_callback_;
   std::unique_ptr<base::Thread> child_monitor_thread_;
+  scoped_refptr<base::SequencedTaskRunner> main_task_runner_;
   base::Process tor_process_;
   const std::unique_ptr<service_manager::ServiceContextRef> service_ref_;
   bool connected_ = true;
